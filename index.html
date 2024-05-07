@@ -1,65 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Jukebox | Queue Songs</title>
     <style>
       body {
         margin: 0;
-        padding-bottom: 3rem;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: "Segoe UI", Roboto, -apple-system, BlinkMacSystemFont,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
       }
 
-      #form {
-        background: rgba(0, 0, 0, 0.15);
-        padding: 0.25rem;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
+      .container {
+        width: 100%;
+        max-width: 600px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        background-color: #ffffff;
+        overflow: hidden;
         display: flex;
-        height: 3rem;
-        box-sizing: border-box;
-        backdrop-filter: blur(10px);
-      }
-      #input {
-        border: none;
-        padding: 0 1rem;
-        flex-grow: 1;
-        border-radius: 2rem;
-        margin: 0.25rem;
-      }
-      #input:focus {
-        outline: none;
-      }
-      #form > button {
-        background: #333;
-        border: none;
-        padding: 0 1rem;
-        margin: 0.25rem;
-        border-radius: 3px;
-        outline: none;
-        color: #fff;
+        flex-direction: column;
+        height: 90vh;
       }
 
       #messages {
         list-style-type: none;
         margin: 0;
-        padding: 0;
+        padding: 1rem;
+        flex: 1;
+        overflow-y: auto;
+        height: calc(100% - 4rem);
       }
+
       #messages > li {
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0.5rem;
+        background: #e9f0f7;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       }
+
       #messages > li:nth-child(odd) {
-        background: #efefef;
+        background: #ffffff;
+      }
+
+      #form {
+        background-color: #f4f4f4;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem;
+        display: flex;
+        height: 4rem;
+        box-sizing: border-box;
+        border-top: 1px solid #e0e0e0;
+      }
+
+      #input {
+        border: 1px solid #cccccc;
+        border-radius: 20px;
+        padding: 0 1.5rem;
+        flex-grow: 1;
+        margin: 0.25rem;
+        font-size: 1rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease;
+      }
+
+      #input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+      }
+
+      #form > button {
+        background: #007bff;
+        border: none;
+        border-radius: 20px;
+        padding: 0 1.5rem;
+        margin: 0.25rem;
+        color: #ffffff;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      #form > button:hover {
+        background: #0056b3;
+      }
+
+      #form > button:focus {
+        outline: none;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
       }
     </style>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
+    <div class="container">
+      <ul id="messages"></ul>
+      <form id="form" action="">
+        <input id="input" autocomplete="off" placeholder="Request a song..." />
+        <button type="submit">Send</button>
+      </form>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
@@ -80,7 +126,7 @@
         var item = document.createElement("li");
         item.textContent = msg;
         messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
+        messages.scrollTop = messages.scrollHeight;
       });
     </script>
   </body>
